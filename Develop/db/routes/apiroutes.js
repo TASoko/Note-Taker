@@ -26,18 +26,22 @@ module.exports = function(app) {
 
   app.post("/api/notes", function(req, res) {
 
-      data.push(req.body);
-      res.json(data);
+    const inputNote = {};
+    inputNote.id = Math.random() * 100;
+    inputNote.body = req.body.newNote
+    data.push(inputNote);
+
+    //then we redirect it to the root route
+    res.redirect('/');
+    res.json(data);
    
   });
 
   // ---------------------------------------------------------------------------
-  // I added this below code so you could clear out the table while working with the functionality.
-  // Don"t worry about it!
-
-  app.delete("/api/notes/:id", function(req, res) {
-    // Empty out the arrays of data
-    data.length = 0;
-    res.json({ ok: true });
+  // Delete option
+  app.post("/api/notes/:id", function(req, res) {
+    const deleteNotes = data.filter(item => item.id != req.params.id);
+    data = deleteNotes;
+    return res.redirect('/');
   });
 };
