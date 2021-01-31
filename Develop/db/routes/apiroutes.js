@@ -1,3 +1,5 @@
+// REQUIRE fs TO WRITE TO FILE
+var fs = require("fs")
 // ===============================================================================
 // LOAD DATA
 // We are linking our routes to a series of "data" sources.
@@ -15,7 +17,10 @@ module.exports = function(app) {
   // API GET Requests
   // ---------------------------------------------------------------------------
   app.get("/api/notes", function(req, res) {
-    res.json(data);
+    fs.readFile(data, "utf8", (err, data)=> {
+      if (err) throw err;
+      res.json(data);
+    })
   });
 
   // API POST Requests
