@@ -6,8 +6,8 @@ var fs = require("fs")
 // These data sources hold arrays of information on table-data, waitinglist, etc.
 // ===============================================================================
 
-var data = require("../db.json");
-
+// var data = require("../db.json");
+var db = "./db/db.json"
 
 // ===============================================================================
 // ROUTING
@@ -17,9 +17,11 @@ module.exports = function(app) {
   // API GET Requests
   // ---------------------------------------------------------------------------
   app.get("/api/notes", function(req, res) {
-    fs.readFile(data, "utf8", (err, data)=> {
-      if (err) throw err;
-      res.json(data);
+    fs.readFile("./db/db.json", "utf8", (err, data)=> {
+      if (err) throw err; { 
+        let notes = JSON.parse(data);
+        res.json(notes);
+      } 
     })
   });
 
@@ -29,18 +31,24 @@ module.exports = function(app) {
   // ...the JSON is pushed
   // ---------------------------------------------------------------------------
 
-  app.post("/api/notes", function(req, res) {
+  // app.post("/api/notes", function(req, res) {
 
-    const inputNote = {};
-    inputNote.id = Math.random() * 100;
-    inputNote.body = req.body.newNote
-    data.push(inputNote);
+  //   const inputNote = {};
+  //   inputNote.id = Math.random() * 100;
+  //   inputNote.body = req.body.newNote
+  //   res.push(inputNote); 
 
-    //then we redirect it to the root route
-    res.redirect('/');
-    res.json(data);
+  //   fs.writeFileSync(db, JSON.stringify(inputNote), (err, data) => {
+  //     if (err) throw err; {
+  //             //then we redirect it to the root route
+  //     res.redirect('/');
+  //     res.json(inputNote);
+
+  //     } 
+
+  //   }
    
-  });
+  // )});
 
   // ---------------------------------------------------------------------------
   // Delete option
