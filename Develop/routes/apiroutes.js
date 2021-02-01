@@ -1,10 +1,6 @@
 // REQUIRE fs TO WRITE TO FILE
 var fs = require("fs")
 // ===============================================================================
-// LOAD DATA
-// We are linking our routes to a series of "data" sources.
-// These data sources hold arrays of information on table-data, waitinglist, etc.
-// ===============================================================================
 
 // ===============================================================================
 // ROUTING
@@ -46,8 +42,8 @@ module.exports = function(app) {
         });    
 
         console.log(inputNote); 
-              //then we redirect it to the root route
-      res.json(inputNote);
+        
+        res.json(inputNote);
 
     }
    
