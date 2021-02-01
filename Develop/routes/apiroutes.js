@@ -45,9 +45,9 @@ module.exports = function(app) {
         
         fs.writeFileSync("./db/db.json", JSON.stringify(inputNote.body),() => {
         let id = db.push(req.body);
-        console.log(inputNote);
           res.json({...req.body,id:id})
-        });     
+        });    
+        console.log(inputNote); 
         // console.log(inputNote);
               //then we redirect it to the root route
       res.json(inputNote);
