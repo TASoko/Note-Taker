@@ -7,13 +7,14 @@ var fs = require("fs")
 // ===============================================================================
 
 // var data = require("../db.json");
-var db = "./db/db.json"
 
 // ===============================================================================
 // ROUTING
 // ===============================================================================
 
 module.exports = function(app) {
+
+  let note = [];
   // API GET Requests
   // ---------------------------------------------------------------------------
   app.get("/api/notes", function(req, res) {
@@ -31,24 +32,31 @@ module.exports = function(app) {
   // ...the JSON is pushed
   // ---------------------------------------------------------------------------
 
-  // app.post("/api/notes", function(req, res) {
+  app.post("/api/notes", function(req, res) {
 
-  //   const inputNote = {};
-  //   inputNote.id = Math.random() * 100;
-  //   inputNote.body = req.body.newNote
-  //   res.push(inputNote); 
+ let db = "./db/db.json";
+    // fs.readFile("./db/db.json", "utf8", (err, data) => {
+    //   if (err) throw err; {
+        const inputNote = [];
+        inputNote.id = Math.random() * 100;
+        inputNote.body = req.body
 
-  //   fs.writeFileSync(db, JSON.stringify(inputNote), (err, data) => {
-  //     if (err) throw err; {
-  //             //then we redirect it to the root route
-  //     res.redirect('/');
-  //     res.json(inputNote);
+        // let id = db.push(req.body);
+        
+        fs.writeFileSync("./db/db.json", JSON.stringify(inputNote.body),() => {
+        let id = db.push(req.body);
+        console.log(inputNote);
+          res.json({...req.body,id:id})
+        });     
+        // console.log(inputNote);
+              //then we redirect it to the root route
+      res.json(inputNote);
 
-  //     } 
+      // } 
 
-  //   }
+    }
    
-  // )});
+  );
 
   // ---------------------------------------------------------------------------
   // Delete option
