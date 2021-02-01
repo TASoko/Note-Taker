@@ -6,8 +6,6 @@ var fs = require("fs")
 // These data sources hold arrays of information on table-data, waitinglist, etc.
 // ===============================================================================
 
-// var data = require("../db.json");
-
 // ===============================================================================
 // ROUTING
 // ===============================================================================
@@ -35,8 +33,7 @@ module.exports = function(app) {
   app.post("/api/notes", function(req, res) {
 
  let db = "./db/db.json";
-    // fs.readFile("./db/db.json", "utf8", (err, data) => {
-    //   if (err) throw err; {
+
         const inputNote = [];
         inputNote.id = Math.random() * 100;
         inputNote.body = req.body
@@ -47,12 +44,10 @@ module.exports = function(app) {
         let id = db.push(req.body);
           res.json({...req.body,id:id})
         });    
+
         console.log(inputNote); 
-        // console.log(inputNote);
               //then we redirect it to the root route
       res.json(inputNote);
-
-      // } 
 
     }
    
