@@ -11,13 +11,18 @@ module.exports = function (app) {
   // API GET Requests
   // ---------------------------------------------------------------------------
   app.get("/api/notes", function (req, res) {
+    // The app has to first read the database file which is located in ./db/db.json before running 
+    // anything else. 
     fs.readFile("./db/db.json", "utf8", (err, data) => {
+      // Because in some cases there will not be data already written we need to make sure the app still runs. In order to do this we stated that
+      // if there isn't any data return data as an empty array. This step is needed!
       if (!data) {
         return (data = []);
       }
       if (err) throw err;
+      //This code makes sure the data is stored as a json and is called notes. 
       let notes = JSON.parse(data);
-      console.log("Getting these notes:", notes);
+      //At the end of this get request the app will render the response. 
       res.json(notes);
     });
   });
