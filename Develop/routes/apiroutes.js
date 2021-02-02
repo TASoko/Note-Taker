@@ -78,23 +78,27 @@ module.exports = function (app) {
   // ---------------------------------------------------------------------------
   // Delete option
   app.delete("/api/notes/:id", function (req, res) {
-
+    // We begin this request like before with the rendering of the current file/data.
     fs.readFile("./db/db.json", "utf8", (err, data) => {
       if (err) throw err;
-      console.log("Retrieving data to delete a note!");
+    // Unlike before notes is sure to have data because you can't delete what is not there
+    // so we simply have notes equal to the parse data
       let notes = JSON.parse(data);
-      console.log("These are the notes, one to be deleted", notes);
 
+    // Below is the code that will help delete a post.
+    // The variable is stating that notes should be filtered and then return the 
+    // notes that do not match the id. the index.js file holds the functionality of the actualy event.
+    // Now, filteredNotes will be an array of all the remainging notes.
       const filteredNotes = notes.filter(note => {
-        console.log(note.id)
-        console.log(req.params.id)
       return note.id != req.params.id
       });
 
       console.log("Note deleted! The notes are now:", filteredNotes)
 
+      // This code ensures that the information created on the app appears in our db.json file.
+      // Now the db.json file will exsist minus the one deleted note.
       fs.writeFileSync("./db/db.json", JSON.stringify(filteredNotes), "utf-8");
-
+      // This is tell the code it worked.
       res.sendStatus(200);
 
     });
