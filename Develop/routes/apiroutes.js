@@ -34,28 +34,42 @@ module.exports = function (app) {
   // ---------------------------------------------------------------------------
 
   app.post("/api/notes", function (req, res) {
+    // We have to start off the post requestion with a readFile so that when it eventually writes a file it knows
+    // the information is coming from. Essentially we have to retrieve the orginal data firt before
+    // we can do anything with it.
     fs.readFile("./db/db.json", "utf8", (err, data) => {
+    // Like before we have to account for the app not having any inital data.
+    // The below code says in this request the original notes is an empty array. 
+    // This is important because we will be putting information in here.
       let notes = [];
       if (err) throw err;
       if (!data) {
+        // This is saying if there is no data to start with make notes an empty array.
         console.log("No data!");
         notes = [];
       } else {
-        console.log("Retrieving data!");
+        //However, if there is data from before have it parsed in the notes array already.
         notes = JSON.parse(data);
       }
       console.log("These are the notes", notes);
-
+      // The code below is the information we would like to collect about the inputed notes. 
+      // The variable in this case was called inputNote
       const inputNote = {
+        // This gives the input note a randomly generated id which will be used later on
+        // Used math floor to give whole integers
         id: Math.floor(Math.random() * 100),
+        // This shows the title of the note.
         title: req.body.title,
+        // This shows the text or body of the note.
         text: req.body.text,
       };
-      console.log("The new note is", inputNote);
+      // The code below then pushes the inputNote into the notes array. Now the added notes will 
+      // display in notes in terms of id, title and text.
       notes.push(inputNote);
 
       console.log("The new note has been added!");
-
+      
+      // This code ensures that the information created on the app appears in our db.json file.
       fs.writeFileSync("./db/db.json", JSON.stringify(notes), "utf-8");
       res.json(inputNote);
     });
